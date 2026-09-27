@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cool Algorithm Visualizer: watch algorithms run, line by line</title>
+  <meta name="description" content="Step through real algorithm executions. The highlighted code, the variables, the call stack and the picture always describe the same moment. Paste your own Python too.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="home.css">
+</head>
+<body class="home">
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="5" r="3"/><circle cx="5.5" cy="18" r="3"/><circle cx="18.5" cy="18" r="3"/><path d="M10.4 7.5 7 15.4M13.6 7.5 17 15.4"/></svg>
+        <span>Algorithm Visualizer</span>
+      </a>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#algorithms">Algorithms</a>
+        <a href="#your-code">Your code</a>
+        <a href="https://github.com/Stefan-Vo/algo-visualizer" rel="noopener">GitHub</a>
+      </div>
+      <a class="btn primary small" href="app.html">Open visualizer</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Interactive algorithm visualizer</p>
+        <h1>Watch algorithms think, <span class="accent">one line at a time.</span></h1>
+        <p class="lead">
+          Step through real executions of classic algorithms, or paste your own Python.
+          The highlighted line, the variables, the call stack and the picture always show
+          <em>the same moment</em> of the same run.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="app.html">Start visualizing <span aria-hidden="true">→</span></a>
+          <a class="btn" href="app.html?algo=custom">Paste your own Python</a>
+        </div>
+        <ul class="stats" id="stats"></ul>
+      </div>
+
+      <figure class="demo" id="demo" aria-label="Live demo: inserting into a binary search tree">
+        <div class="demo-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="demo-title" id="demo-title">insert(root, 6)</span>
+          <button type="button" class="demo-toggle" id="demo-toggle" aria-label="Pause demo">❚❚</button>
+        </div>
+        <div class="demo-body">
+          <div class="demo-code" id="demo-code"></div>
+          <div class="demo-viz" id="demo-viz"></div>
+        </div>
+        <figcaption class="demo-caption">
+          <div class="demo-meta"><span class="kind" id="demo-kind">LINE</span><span id="demo-step"></span><span id="demo-eval" class="demo-eval"></span></div>
+          <p id="demo-desc"></p>
+        </figcaption>
+        <a class="demo-link" href="app.html?algo=bst-insert">Open this in the visualizer →</a>
+      </figure>
+    </div>
+  </header>
+
+  <section class="section" id="how">
+    <div class="wrap">
+      <p class="eyebrow">How it works</p>
+      <h2>Not an animation. A recording of a real execution.</h2>
+      <p class="section-lead">
+        Many visualizers play a pre-made animation that only looks like the algorithm.
+        Here the algorithm actually runs, and every step it takes is recorded along with the
+        exact program state at that moment. Everything you see is drawn from that record.
+      </p>
+      <div class="pipeline" aria-label="Architecture">
+        <div class="pipe-box">
+          <span class="pipe-k">1</span>
+          <h3>Algorithm</h3>
+          <p>Python-style source plus a real implementation that runs on a real data structure.</p>
+        </div>
+        <div class="pipe-arrow" aria-hidden="true">→</div>
+        <div class="pipe-box">
+          <span class="pipe-k">2</span>
+          <h3>Execution engine</h3>
+          <p>Records a step on every call, executed line and return, exactly like Python's tracer.</p>
+        </div>
+        <div class="pipe-arrow" aria-hidden="true">→</div>
+        <div class="pipe-box">
+          <span class="pipe-k">3</span>
+          <h3>Step record</h3>
+          <p>Line, call stack, locals, comparison, return value and a snapshot of the structure.</p>
+        </div>
+        <div class="pipe-arrow" aria-hidden="true">→</div>
+        <div class="pipe-box outputs">
+          <span class="pipe-k">4</span>
+          <h3>Three synchronized views</h3>
+          <ul><li>Source, with the line highlighted</li><li>Program state</li><li>Visualization</li></ul>
+        </div>
+      </div>
+
+      <div class="step-example">
+        <div class="step-card" id="step-card"></div>
+        <div class="step-explain">
+          <h3>One step, fully explained</h3>
+          <p>
+            This card was generated from a real recorded step of <code>insert(root, 6)</code>.
+            The engine knows which line is running, what every variable holds, what is being
+            compared, and which way the algorithm will go next.
+          </p>
+          <p>Because the whole run is recorded, <b>Previous</b>, the timeline slider and <b>jump to comparison</b> are exact. Nothing is re-simulated or faked backwards.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="features">
+    <div class="wrap">
+      <p class="eyebrow">Features</p>
+      <h2>Everything a learner (or an interviewer) wants to see</h2>
+      <div class="features">
+        <article class="feature">
+          <div class="ficon"><svg viewBox="0 0 24 24"><path d="M4 6h10M4 10h16M4 14h8M4 18h12"/><rect x="2" y="8.5" width="20" height="3" rx="1" class="fill"/></svg></div>
+          <h3>Line-by-line sync</h3>
+          <p>The current line is highlighted, and lines where outer calls are paused are marked, so recursion is easy to follow.</p>
+        </article>
+        <article class="feature">
+          <div class="ficon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1" class="fill"/></svg></div>
+          <h3>Variables &amp; call stack</h3>
+          <p>Every frame's locals, what just changed, return values, and each comparison with its live values: <code>7 &lt; 10 → True</code>.</p>
+        </article>
+        <article class="feature">
+          <div class="ficon"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1" class="fill"/><rect x="2" y="11" width="6" height="4" rx="1"/><rect x="16" y="11" width="6" height="4" rx="1"/><rect x="16" y="18" width="6" height="4" rx="1"/><path d="M12 6v2.5H5V11M12 8.5h7V11M19 15v3"/></svg></div>
+          <h3>Recursion tree</h3>
+          <p>Every call as a node with its arguments and return value. Compare naive and memoized Fibonacci and see the difference immediately.</p>
+        </article>
+        <article class="feature">
+          <div class="ficon"><svg viewBox="0 0 24 24"><path d="M8 7 3 12l5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div>
+          <h3>Paste your own Python</h3>
+          <p>Real CPython runs in your browser via WebAssembly. Trees, linked lists, arrays, grids and dicts are detected and drawn automatically.</p>
+        </article>
+        <article class="feature">
+          <div class="ficon"><svg viewBox="0 0 24 24"><path d="M6 5v14l11-7z" class="fill"/></svg></div>
+          <h3>Full playback control</h3>
+          <p>Play, pause, step forwards or backwards, scrub the timeline, change speed. Keyboard: <kbd>←</kbd> <kbd>→</kbd> <kbd>Space</kbd> <kbd>C</kbd>.</p>
+        </article>
+        <article class="feature">
+          <div class="ficon"><svg viewBox="0 0 24 24"><path d="M4 12.5 9 17.5 20 6.5"/></svg></div>
+          <h3>Checked for correctness</h3>
+          <p>Every algorithm is tested against a reference implementation on thousands of random inputs, including the recorded steps themselves.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="algorithms">
+    <div class="wrap">
+      <p class="eyebrow">Algorithms</p>
+      <h2>Pick something to watch</h2>
+      <p class="section-lead">Each card opens the visualizer with that algorithm loaded. Change the input data and run it again as often as you like.</p>
+      <div id="catalog" class="catalog"></div>
+    </div>
+  </section>
+
+  <section class="section alt" id="your-code">
+    <div class="wrap byo">
+      <div>
+        <p class="eyebrow">Bring your own code</p>
+        <h2>Paste any Python. See its data structures come alive.</h2>
+        <p class="section-lead">
+          Your program runs in real CPython (Pyodide) inside the browser, traced line by line.
+          The visualizer knows nothing about your algorithm. It recognizes structures by their shape:
+        </p>
+        <table class="shapes">
+          <tr><td>objects with <code>.left</code> and <code>.right</code></td><td>binary trees</td></tr>
+          <tr><td>objects with <code>.next</code></td><td>linked lists</td></tr>
+          <tr><td>lists, tuples, sets, deques</td><td>arrays with <code>i</code>, <code>j</code>, <code>lo</code>, <code>hi</code> as index pointers</td></tr>
+          <tr><td>a list of lists</td><td>a grid, perfect for dynamic programming</td></tr>
+          <tr><td>dicts</td><td>key → value rows</td></tr>
+        </table>
+        <div class="cta-row">
+          <a class="btn primary" href="app.html?algo=custom">Open the editor <span aria-hidden="true">→</span></a>
+          <a class="btn" href="app.html?algo=custom&amp;example=linked-list">Try an example</a>
+        </div>
+      </div>
+      <div class="code-card">
+        <div class="demo-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="demo-title">your_code.py</span></div>
+        <div class="code static-code" id="byo-code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section closing">
+    <div class="wrap closing-inner">
+      <h2>Ready to watch an algorithm think?</h2>
+      <p>No sign-up, no install. It runs entirely in your browser.</p>
+      <a class="btn primary big" href="app.html">Open the visualizer <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span>Algorithm Visualizer. Built with plain JavaScript, SVG and Pyodide, with no build step.</span>
+      <span><a href="https://github.com/Stefan-Vo/algo-visualizer" rel="noopener">Source on GitHub</a> · <a href="app.html">Visualizer</a></span>
+    </div>
+  </footer>
+
+  <script src="src/engine/core.js"></script>
+  <script src="src/engine/tracer.js"></script>
+  <script src="src/engine/player.js"></script>
+  <script src="src/structures/bst.js"></script>
+  <script src="src/structures/array.js"></script>
+  <script src="src/structures/graph.js"></script>
+  <script src="src/structures/heap.js"></script>
+  <script src="src/structures/linked-list.js"></script>
+  <script src="src/views/animate.js"></script>
+  <script src="src/views/tree-view.js"></script>
+  <script src="src/algorithms/bst-common.js"></script>
+  <script src="src/algorithms/bst-insert.js"></script>
+  <script src="src/algorithms/bst-search.js"></script>
+  <script src="src/algorithms/bst-delete.js"></script>
+  <script src="src/algorithms/binary-search.js"></script>
+  <script src="src/algorithms/bubble-sort.js"></script>
+  <script src="src/algorithms/sorting.js"></script>
+  <script src="src/algorithms/graph-algorithms.js"></script>
+  <script src="src/algorithms/heap-algorithms.js"></script>
+  <script src="src/algorithms/list-and-recursion.js"></script>
+  <script src="src/python/examples.js"></script>
+  <script src="src/ui/code-panel.js"></script>
+  <script src="src/ui/home.js"></script>
+</body>
+</html>

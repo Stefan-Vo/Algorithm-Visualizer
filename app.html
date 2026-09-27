@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cool Algorithm Visualizer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app">
+  <header class="topbar">
+    <a class="brand" href="index.html" title="Home">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="5" r="3"/><circle cx="5.5" cy="18" r="3"/><circle cx="18.5" cy="18" r="3"/><path d="M10.4 7.5 7 15.4M13.6 7.5 17 15.4"/></svg>
+      <span>Algorithm Visualizer</span>
+    </a>
+    <form id="setup" class="setup" autocomplete="off">
+      <label class="field">
+        <span>Algorithm</span>
+        <select id="algo"></select>
+      </label>
+      <label class="field grow" id="data-wrap">
+        <span>Input data <em id="data-hint"></em></span>
+        <input id="data" spellcheck="false">
+      </label>
+      <label class="field narrow" id="param-wrap">
+        <span id="param-label">Value</span>
+        <input id="param" inputmode="decimal" spellcheck="false">
+      </label>
+      <label class="field" id="example-wrap" hidden>
+        <span>Example</span>
+        <select id="example"></select>
+      </label>
+      <div class="actions">
+        <button type="submit" id="run" class="primary">Run</button>
+        <button type="button" id="random" title="Random input">Random</button>
+        <button type="button" id="keep" title="Use the final structure as the next input" disabled>Keep result</button>
+      </div>
+    </form>
+  </header>
+  <div id="message" class="message" hidden></div>
+
+  <main class="workspace">
+    <section class="panel code-panel">
+      <header class="panel-head"><span>Source</span><span class="head-right"><span id="code-title" class="muted"></span><button type="button" id="edit-code" class="mini" hidden>Edit code</button></span></header>
+      <div id="code" class="code"></div>
+      <textarea id="editor" class="editor" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off" hidden aria-label="Python code editor"></textarea>
+    </section>
+    <section class="panel viz-panel">
+      <header class="panel-head">
+        <div class="tabs" role="tablist" id="viz-tabs">
+          <button type="button" role="tab" data-tab="structure" aria-selected="true">Visualization</button>
+          <button type="button" role="tab" data-tab="calls" aria-selected="false" title="Recursion / call tree (C)">Call tree <span id="calls-count" class="count"></span></button>
+        </div>
+        <span id="viz-title" class="muted"></span>
+      </header>
+      <div id="viz" class="viz"></div>
+      <div id="calltree" class="calltree" hidden></div>
+    </section>
+    <section class="panel state-panel">
+      <header class="panel-head"><span>Execution state</span></header>
+      <div id="state" class="state"></div>
+    </section>
+  </main>
+
+  <footer class="controls">
+    <div class="buttons">
+      <button id="prev" title="Previous step (←)">⏮ Prev</button>
+      <button id="play" class="primary play" title="Play / pause (Space)">▶ Play</button>
+      <button id="next" title="Next step (→)">Next ⏭</button>
+      <button id="reset" title="Reset (Home)">↺ Reset</button>
+    </div>
+    <div class="timeline">
+      <input type="range" id="scrub" min="0" max="0" value="0" aria-label="Step">
+      <span id="counter" class="counter">0 / 0</span>
+    </div>
+    <label class="speed">
+      <span>Speed</span>
+      <input type="range" id="speed" min="0" max="7" aria-label="Speed">
+      <span id="speed-label" class="muted"></span>
+    </label>
+  </footer>
+
+  <!-- engine -->
+  <script src="src/engine/core.js"></script>
+  <script src="src/engine/tracer.js"></script>
+  <script src="src/engine/player.js"></script>
+  <!-- structures -->
+  <script src="src/structures/bst.js"></script>
+  <script src="src/structures/array.js"></script>
+  <script src="src/structures/graph.js"></script>
+  <script src="src/structures/heap.js"></script>
+  <script src="src/structures/linked-list.js"></script>
+  <!-- views -->
+  <script src="src/views/animate.js"></script>
+  <script src="src/views/tree-view.js"></script>
+  <script src="src/views/array-view.js"></script>
+  <script src="src/views/heap-view.js"></script>
+  <script src="src/views/graph-view.js"></script>
+  <script src="src/views/binheap-view.js"></script>
+  <script src="src/views/list-view.js"></script>
+  <script src="src/views/call-tree.js"></script>
+  <!-- algorithms -->
+  <script src="src/algorithms/bst-common.js"></script>
+  <script src="src/algorithms/bst-insert.js"></script>
+  <script src="src/algorithms/bst-search.js"></script>
+  <script src="src/algorithms/bst-delete.js"></script>
+  <script src="src/algorithms/binary-search.js"></script>
+  <script src="src/algorithms/bubble-sort.js"></script>
+  <script src="src/algorithms/sorting.js"></script>
+  <script src="src/algorithms/graph-algorithms.js"></script>
+  <script src="src/algorithms/heap-algorithms.js"></script>
+  <script src="src/algorithms/list-and-recursion.js"></script>
+  <!-- user code (Python via Pyodide) -->
+  <script src="src/python/tracer-py.js"></script>
+  <script src="src/python/examples.js"></script>
+  <script src="src/python/python-runner.js"></script>
+  <!-- ui -->
+  <script src="src/ui/code-panel.js"></script>
+  <script src="src/ui/state-panel.js"></script>
+  <script src="src/ui/app.js"></script>
+</body>
+</html>
